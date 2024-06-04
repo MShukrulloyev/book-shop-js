@@ -398,6 +398,10 @@ main .container {
         font-size: clamp(20px, 1.8vw, 25px);
     }
 
+    p {
+        font-size: clamp(14px, 1.6vw, 18px);
+    }
+
     /* buttons */
     .btn-circle {
         width: clamp(20px, 2vw, 30px);
@@ -417,6 +421,10 @@ main .container {
     /* default styles */
     h3 {
         font-size: clamp(14px, 2vw, 25px);
+    }
+
+    p {
+        font-size: clamp(10px, 1.6vw, 18px);
     }
 
     /* header */
