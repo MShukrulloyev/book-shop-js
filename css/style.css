@@ -32,6 +32,7 @@ img {
 
 button {
     cursor: pointer;
+    user-select: none;
 }
 
 h1 {
@@ -103,6 +104,10 @@ p {
     display: none;
 }
 
+.d-none {
+    display: none;
+}
+
 body:has(#modal.active) {
     overflow-y: hidden;
     scrollbar-gutter: stable;
@@ -163,8 +168,14 @@ body:has(#modal.active) .overlay {
     transition: all .3s;
 }
 
-.btn:hover,
-.btn:focus {
+.btn.disabled {
+    background-color: var(--gray);
+    cursor: auto;
+    color: white;
+}
+
+.btn:not(.disabled):hover,
+.btn:not(.disabled):focus {
     transform: scale(1.1);
 }
 

@@ -1,0 +1,94 @@
+body {
+    background-color: var(--light);
+}
+
+.configm-section {
+    text-align: center;
+    margin-top: 3%;
+}
+
+.justify-content-center {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+p,
+label {
+    vertical-align: center;
+}
+
+.white-card {
+    text-align: left;
+    position: relative;
+    max-width: fit-content;
+    background-color: #fff;
+    margin: 2% auto;
+    padding: 40px 70px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.feedback {
+    grid-area: 2 / 2;
+    font-size: 0.8rem;
+    visibility: hidden;
+}
+
+.invalid-feedback {
+    color: red;
+    visibility: visible;
+}
+
+option {
+    text-align: left !important;
+}
+
+form>div {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    row-gap: 5px;
+    column-gap: 15px;
+}
+
+form>div *:first-child {
+    text-align: right;
+    white-space: nowrap;
+    text-transform: capitalize;
+}
+
+form>div input:not([type='radio'], [type='checkbox']),
+form>div select {
+    padding: 5px 15px;
+    border: none;
+    border-radius: 3px;
+    font-size: 0.9rem;
+    background-color: var(--light);
+}
+
+input:focus,
+select:focus {
+    outline: 1px solid var(--gray);
+}
+
+.btn {
+    align-self: center;
+}
+
+.complete-section .white-card>div {
+    margin-top: 5%;
+}
+
+.complete-section .white-card>div>div {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 15px;
+}
+
+.complete-section .white-card>div>div>*:first-child {
+    text-align: right;
+    color: var(--gold);
+}
