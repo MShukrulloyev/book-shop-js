@@ -131,6 +131,9 @@ body:has(#modal.active) .overlay {
     background-color: var(--gold);
     font-weight: 500;
     transition: all .3s;
+    text-decoration: none;
+    display: grid;
+    place-items: center;
 }
 
 .btn-circle i {
@@ -166,6 +169,7 @@ body:has(#modal.active) .overlay {
     font-weight: bold;
     background-color: transparent;
     transition: all .3s;
+    text-decoration: none;
 }
 
 .btn.disabled {
