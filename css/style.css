@@ -103,13 +103,11 @@ p {
     display: none;
 }
 
-body:has(#bag.active),
 body:has(#modal.active) {
     overflow-y: hidden;
     scrollbar-gutter: stable;
 }
 
-body:has(#bag.active) .overlay,
 body:has(#modal.active) .overlay {
     opacity: 1;
     display: block;
@@ -123,11 +121,15 @@ body:has(#modal.active) .overlay {
     border-radius: 50%;
     border: none;
     font-size: clamp(12px, 1.4vw, 30px);
-    line-height: 1;
+    line-height: 0;
     color: white;
     background-color: var(--gold);
     font-weight: 500;
     transition: all .3s;
+}
+
+.btn-circle i {
+    line-height: 0;
 }
 
 .btn-circle:not(.btn-close, .disabled):hover,
@@ -232,8 +234,8 @@ header input {
 
 main .container {
     display: grid;
-    grid-template-columns: 7fr 2fr;
-    gap: 3%;
+    grid-template-columns: 3fr 1fr;
+    gap: 2%;
 }
 
 /* books-wrapper section */
@@ -320,7 +322,7 @@ main .container {
     align-self: flex-start;
     background-color: #eee;
     margin: 10% 0;
-    padding: 10%;
+    padding: 2vh 4% 10px;
     text-align: center;
     border-radius: 10px;
     height: 100vh;
@@ -328,14 +330,40 @@ main .container {
 }
 
 .bag__books {
-    margin: 6% 0;
+    margin: 3% 0;
+    display: flex;
+    align-items: center;
+}
+
+.bag__books>button {
+    font-weight: bold;
+    font-size: clamp(12px, 0.5vw, 25px);
+}
+
+.bag__books>.btn-close {
+    transform: translate(0);
+    top: 10px;
+    left: 10px;
+    display: none;
+}
+
+.slider {
+    flex: 6;
+    overflow: hidden;
+}
+
+.slider #books_wrapper {
+    display: flex;
+    width: 300%;
 }
 
 .bag__books-card {
     position: relative;
     background-color: #fff;
     border-radius: 10px;
-    padding: 5%;
+    padding: 1%;
+    margin: 2%;
+    flex: 1;
 }
 
 .bag__books-card .card-content {
@@ -398,6 +426,11 @@ main .container {
         font-size: clamp(20px, 1.8vw, 25px);
     }
 
+    #bag-book-title {
+        font-size: clamp(15px, 1.7vw, 20px);
+        margin-top: 2%;
+    }
+
     p {
         font-size: clamp(14px, 1.6vw, 18px);
     }
@@ -423,8 +456,16 @@ main .container {
         font-size: clamp(14px, 2vw, 25px);
     }
 
+    #bag #bag-book-title {
+        font-size: clamp(12px, 1.5vw, 20px);
+    }
+
     p {
         font-size: clamp(10px, 1.6vw, 18px);
+    }
+
+    #bag p {
+        font-size: clamp(8px, 1.3vw, 18px);
     }
 
     /* header */
@@ -447,6 +488,16 @@ main .container {
 }
 
 @media screen and (max-width: 700px) {
+    body:has(#bag.active) .overlay {
+        opacity: 1;
+        display: block;
+    }
+
+    body:has(#bag.active) {
+        overflow-y: hidden;
+        scrollbar-gutter: stable;
+    }
+
     #bag-toggler {
         display: block;
     }
@@ -483,8 +534,12 @@ main .container {
     }
 
     .bag__books {
-        max-width: 200px;
+        max-width: 250px;
         margin: 5% auto;
+    }
+
+    .bag__books>.btn-close {
+        display: inline-block;
     }
 }
 
@@ -493,7 +548,15 @@ main .container {
         font-size: 12px;
     }
 
+    .bag__books {
+        max-width: 300px;
+    }
+
     header form {
         width: 80%;
+    }
+
+    #bag {
+        width: 100%;
     }
 }
