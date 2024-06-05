@@ -105,7 +105,7 @@ p {
 }
 
 .d-none {
-    display: none;
+    display: none !important;
 }
 
 body:has(#modal.active) {
@@ -199,6 +199,19 @@ body:has(#modal.active) .overlay {
     background-color: var(--gold);
     display: none;
     transition: all .3s;
+}
+
+#bag-toggler .badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: red;
+    border-radius: 50%;
+    width: 15px;
+    aspect-ratio: 1;
+    font-size: 10px;
+    display: grid;
+    place-items: center;
 }
 
 #bag-toggler:hover {
