@@ -9,9 +9,310 @@
     <link rel="stylesheet" href="css/normalize.css">
     <!-- Main CSS -->
     <link rel="stylesheet" href="css/style.css">
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
+
+    <div class="overlay" id="overlay"></div>
+
+    <header>
+        <div class="container">
+            <h1>Welcome to amazing <br> book shop!</h1>
+            <form action="#">
+                <input type="search" placeholder="Search...">
+            </form>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="books__container">
+                <h2>Book Catalog</h2>
+                <div id="books" class="books-wrapper">
+                    <div id="book" data-index="1">
+                        <div class="book__img">
+                            <img src="assets/images/thumbnails/Effective JavaScript_68 Specific Ways to Harness the Power of JavaScript.jpg"
+                                alt="">
+                        </div>
+                        <div class="book__content">
+                            <div class="book__content__div">
+                                <h3 id="bookTitle">JavaScript: The Good Parts</h3>
+                                <p id="bookAuth">Douglas Crockford</p>
+                            </div>
+                            <div class="book__content__div">
+                                <div class="stars" id="stars">
+                                    <i class="fa-solid fa-star" data-rate="1"></i>
+                                    <i class="fa-solid fa-star" data-rate="2"></i>
+                                    <i class="fa-solid fa-star" data-rate="3"></i>
+                                    <i class="fa-solid fa-star" data-rate="4"></i>
+                                    <i class="fa-solid fa-star" data-rate="5"></i>
+                                </div>
+                                <p class="price" id="price">Price: <big>$30</big></p>
+                                <div class="buttons">
+                                    <button class="btn btn-warning">Add to bag</button>
+                                    <button class="btn">Show more</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="book" data-index="1">
+                        <div class="book__img">
+                            <img src="assets/images/thumbnails/Effective JavaScript_68 Specific Ways to Harness the Power of JavaScript.jpg"
+                                alt="">
+                        </div>
+                        <div class="book__content">
+                            <div class="book__content__div">
+                                <h3 id="bookTitle">JavaScript: The Good Parts</h3>
+                                <p id="bookAuth">Douglas Crockford</p>
+                            </div>
+                            <div class="book__content__div">
+                                <div class="stars" id="stars">
+                                    <i class="fa-solid fa-star" data-rate="1"></i>
+                                    <i class="fa-solid fa-star" data-rate="2"></i>
+                                    <i class="fa-solid fa-star" data-rate="3"></i>
+                                    <i class="fa-solid fa-star" data-rate="4"></i>
+                                    <i class="fa-solid fa-star" data-rate="5"></i>
+                                </div>
+                                <p class="price" id="price">Price: <big>$30</big></p>
+                                <div class="buttons">
+                                    <button class="btn btn-warning">Add to bag</button>
+                                    <button class="btn">Show more</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="book" data-index="1">
+                        <div class="book__img">
+                            <img src="assets/images/thumbnails/Effective JavaScript_68 Specific Ways to Harness the Power of JavaScript.jpg"
+                                alt="">
+                        </div>
+                        <div class="book__content">
+                            <div class="book__content__div">
+                                <h3 id="bookTitle">JavaScript: Lorem ipsum dolor sit amet. The Good Parts</h3>
+                                <p id="bookAuth">Douglas Crockford</p>
+                            </div>
+                            <div class="book__content__div">
+                                <div class="stars" id="stars">
+                                    <i class="fa-solid fa-star" data-rate="1"></i>
+                                    <i class="fa-solid fa-star" data-rate="2"></i>
+                                    <i class="fa-solid fa-star" data-rate="3"></i>
+                                    <i class="fa-solid fa-star" data-rate="4"></i>
+                                    <i class="fa-solid fa-star" data-rate="5"></i>
+                                </div>
+                                <p class="price" id="price">Price: <big>$30</big></p>
+                                <div class="buttons">
+                                    <button class="btn btn-warning">Add to bag</button>
+                                    <button class="btn">Show more</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="book" data-index="1">
+                        <div class="book__img">
+                            <img src="assets/images/thumbnails/Effective JavaScript_68 Specific Ways to Harness the Power of JavaScript.jpg"
+                                alt="">
+                        </div>
+                        <div class="book__content">
+                            <div class="book__content__div">
+                                <h3 id="bookTitle">JavaScript: The Good Parts</h3>
+                                <p id="bookAuth">Douglas Crockford</p>
+                            </div>
+                            <div class="book__content__div">
+                                <div class="stars" id="stars">
+                                    <i class="fa-solid fa-star" data-rate="1"></i>
+                                    <i class="fa-solid fa-star" data-rate="2"></i>
+                                    <i class="fa-solid fa-star" data-rate="3"></i>
+                                    <i class="fa-solid fa-star" data-rate="4"></i>
+                                    <i class="fa-solid fa-star" data-rate="5"></i>
+                                </div>
+                                <p class="price" id="price">Price: <big>$30</big></p>
+                                <div class="buttons">
+                                    <button class="btn btn-warning">Add to bag</button>
+                                    <button class="btn">Show more</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="book" data-index="1">
+                        <div class="book__img">
+                            <img src="assets/images/thumbnails/Effective JavaScript_68 Specific Ways to Harness the Power of JavaScript.jpg"
+                                alt="">
+                        </div>
+                        <div class="book__content">
+                            <div class="book__content__div">
+                                <h3 id="bookTitle">JavaScript: Lorem ipsum dolor sit amet. The Good Parts</h3>
+                                <p id="bookAuth">Douglas Crockford</p>
+                            </div>
+                            <div class="book__content__div">
+                                <div class="stars" id="stars">
+                                    <i class="fa-solid fa-star" data-rate="1"></i>
+                                    <i class="fa-solid fa-star" data-rate="2"></i>
+                                    <i class="fa-solid fa-star" data-rate="3"></i>
+                                    <i class="fa-solid fa-star" data-rate="4"></i>
+                                    <i class="fa-solid fa-star" data-rate="5"></i>
+                                </div>
+                                <p class="price" id="price">Price: <big>$30</big></p>
+                                <div class="buttons">
+                                    <button class="btn btn-warning">Add to bag</button>
+                                    <button class="btn">Show more</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="book" data-index="1">
+                        <div class="book__img">
+                            <img src="assets/images/thumbnails/Effective JavaScript_68 Specific Ways to Harness the Power of JavaScript.jpg"
+                                alt="">
+                        </div>
+                        <div class="book__content">
+                            <div class="book__content__div">
+                                <h3 id="bookTitle">JavaScript: The Good Parts</h3>
+                                <p id="bookAuth">Douglas Crockford</p>
+                            </div>
+                            <div class="book__content__div">
+                                <div class="stars" id="stars">
+                                    <i class="fa-solid fa-star" data-rate="1"></i>
+                                    <i class="fa-solid fa-star" data-rate="2"></i>
+                                    <i class="fa-solid fa-star" data-rate="3"></i>
+                                    <i class="fa-solid fa-star" data-rate="4"></i>
+                                    <i class="fa-solid fa-star" data-rate="5"></i>
+                                </div>
+                                <p class="price" id="price">Price: <big>$30</big></p>
+                                <div class="buttons">
+                                    <button class="btn btn-warning">Add to bag</button>
+                                    <button class="btn">Show more</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="book" data-index="1">
+                        <div class="book__img">
+                            <img src="assets/images/thumbnails/Effective JavaScript_68 Specific Ways to Harness the Power of JavaScript.jpg"
+                                alt="">
+                        </div>
+                        <div class="book__content">
+                            <div class="book__content__div">
+                                <h3 id="bookTitle">JavaScript: Lorem ipsum dolor sit amet. The Good Parts</h3>
+                                <p id="bookAuth">Douglas Crockford</p>
+                            </div>
+                            <div class="book__content__div">
+                                <div class="stars" id="stars">
+                                    <i class="fa-solid fa-star" data-rate="1"></i>
+                                    <i class="fa-solid fa-star" data-rate="2"></i>
+                                    <i class="fa-solid fa-star" data-rate="3"></i>
+                                    <i class="fa-solid fa-star" data-rate="4"></i>
+                                    <i class="fa-solid fa-star" data-rate="5"></i>
+                                </div>
+                                <p class="price" id="price">Price: <big>$30</big></p>
+                                <div class="buttons">
+                                    <button class="btn btn-warning">Add to bag</button>
+                                    <button class="btn">Show more</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <aside id="bag">
+                <h2>Your Bag</h2>
+
+                <div class="bag__books">
+                    <button class="btn-circle btn-close" id="bag-close">&#10005;</button>
+                    <button class="btn-circle disabled">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+
+                    <div class="slider">
+                        <div id="books_wrapper">
+                            <div class="bag__books-card" id="bag-book">
+                                <button class="btn-circle btn-close" id="bag-book-close">&#10005;</button>
+                                <div class="card-image">
+                                    <img id="bag-book-Thumbnail"
+                                        src="assets/images/thumbnails/Effective JavaScript_68 Specific Ways to Harness the Power of JavaScript.jpg"
+                                        alt="">
+                                </div>
+                                <div class="card-content">
+                                    <h3 id="bag-book-title">JavaScript: The Good Parts</h3>
+                                    <p id="bag-book-auth">Douglas Crockford</p>
+                                    <p class="price" id="bag-book-price">Price <big>$30</big></p>
+                                    <div>
+                                        <button class="btn-circle disabled" id="inc">&minus;</button>
+                                        <span class="bag-book-count">1</span>
+                                        <button class="btn-circle" id="dec">&plus;</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bag__books-card" id="bag-book">
+                                <button class="btn-circle btn-close" id="bag-book-close">&#10005;</button>
+                                <div class="card-image">
+                                    <img id="bag-book-Thumbnail"
+                                        src="assets/images/thumbnails/Effective JavaScript_68 Specific Ways to Harness the Power of JavaScript.jpg"
+                                        alt="">
+                                </div>
+                                <div class="card-content">
+                                    <h3 id="bag-book-title">JavaScript: The Good Parts</h3>
+                                    <p id="bag-book-auth">Douglas Crockford</p>
+                                    <p class="price" id="bag-book-price">Price <big>$30</big></p>
+                                    <div>
+                                        <button class="btn-circle disabled" id="inc">&minus;</button>
+                                        <span class="bag-book-count">1</span>
+                                        <button class="btn-circle" id="dec">&plus;</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bag__books-card" id="bag-book">
+                                <button class="btn-circle btn-close" id="bag-book-close">&#10005;</button>
+                                <div class="card-image">
+                                    <img id="bag-book-Thumbnail"
+                                        src="assets/images/thumbnails/Effective JavaScript_68 Specific Ways to Harness the Power of JavaScript.jpg"
+                                        alt="">
+                                </div>
+                                <div class="card-content">
+                                    <h3 id="bag-book-title">JavaScript: The Good Parts</h3>
+                                    <p id="bag-book-auth">Douglas Crockford</p>
+                                    <p class="price" id="bag-book-price">Price <big>$30</big></p>
+                                    <div>
+                                        <button class="btn-circle disabled" id="inc">&minus;</button>
+                                        <span class="bag-book-count">1</span>
+                                        <button class="btn-circle" id="dec">&plus;</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn-circle">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+
+                <div>
+                    <p class="price">Total: <big>$0</big></p>
+                    <button class="btn btn-warning mt-1">Confirm Order</button>
+                </div>
+            </aside>
+            <button id="bag-toggler">
+                <span id="bag-book-count" class="badge d-none">5</span>
+                <i class="fa-solid fa-basket-shopping"></i>
+            </button>
+        </div>
+    </main>
+
+    <div class="modal" id="modal">
+        <button class="btn-circle btn-close" id="bag-book-close bg-red">&#10005;</button>
+        <h5 id="modal-title">JavaScript: The Good Parts</h5>
+        <p id="modal-description">
+            With JavaScript: The Good Parts, you'll discover a beautiful, elegant, lightweight and
+            highly expressive language that
+            lets you create effective code, whether you're managing object libraries or just trying to get Ajax to
+            run fast. If you
+            develop sites or applications for the Web, this book is an absolute must
+        </p>
+    </div>
 
     <script src="js/main.js"></script>
 </body>

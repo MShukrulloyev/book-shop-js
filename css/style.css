@@ -1,0 +1,590 @@
+/* fonts */
+@font-face {
+    font-family: Montserrat;
+    src: url("../assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf") format('truetype');
+}
+
+/* default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Montserrat, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    font-size: 1.125rem;
+    color: #242124;
+}
+
+:root {
+    --red: #dc3545;
+    --gray: #adb5bd;
+    --light: #f7f7f7;
+    --gold: #FFD700;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+button {
+    cursor: pointer;
+    user-select: none;
+}
+
+h1 {
+    font-size: clamp(25px, 3.5vw, 70px);
+}
+
+h2 {
+    font-size: clamp(20px, 2.2vw, 45px);
+}
+
+h3 {
+    font-size: clamp(12px, 1.3vw, 25px);
+    line-height: 1.1;
+}
+
+p {
+    font-size: clamp(10px, 1vw, 18px);
+}
+
+::placeholder {
+    color: #adb5bd;
+}
+
+/* global styles */
+.container {
+    max-width: 1920px;
+    width: 90%;
+    margin: auto;
+}
+
+.bg-red {
+    background-color: var(--red);
+}
+
+.fa-star {
+    color: #e4e4e4;
+    cursor: pointer;
+    font-size: clamp(12px, 1vw, 22px);
+    transition: all .3s;
+}
+
+.fa-star.active {
+    color: var(--gold);
+}
+
+.fa-star:hover {
+    transform: scale(1.3);
+}
+
+.price big {
+    font-size: clamp(12px, 1.2vw, 25px);
+    font-weight: bold;
+}
+
+.mt-1 {
+    margin-top: 10px;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100vw;
+    height: 100vh;
+    cursor: pointer;
+    opacity: 0;
+    display: none;
+}
+
+.d-none {
+    display: none !important;
+}
+
+body:has(#modal.active) {
+    overflow-y: hidden;
+    scrollbar-gutter: stable;
+}
+
+body:has(#modal.active) .overlay {
+    opacity: 1;
+    display: block;
+}
+
+/* buttons */
+
+.btn-circle {
+    width: clamp(8px, 1.8vw, 30px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: none;
+    font-size: clamp(12px, 1.4vw, 30px);
+    line-height: 0;
+    color: white;
+    background-color: var(--gold);
+    font-weight: 500;
+    transition: all .3s;
+    text-decoration: none;
+    display: grid;
+    place-items: center;
+}
+
+.btn-circle i {
+    line-height: 0;
+}
+
+.btn-circle:not(.btn-close, .disabled):hover,
+.btn-circle:not(.btn-close, .disabled):focus {
+    transform: scale(1.1);
+}
+
+.btn-circle.disabled {
+    background-color: rgb(203, 203, 203);
+    cursor: auto;
+}
+
+.btn-close {
+    font-weight: bold;
+    font-size: clamp(8px, 0.7vw, 12px);
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+    color: white;
+    background-color: var(--red);
+}
+
+.btn {
+    border-radius: 100px;
+    padding: 3% 7%;
+    font-size: clamp(10px, 0.8vw, 16px);
+    border: none;
+    font-weight: bold;
+    background-color: transparent;
+    transition: all .3s;
+    text-decoration: none;
+}
+
+.btn.disabled {
+    background-color: var(--gray);
+    cursor: auto;
+    color: white;
+}
+
+.btn:not(.disabled):hover,
+.btn:not(.disabled):focus {
+    transform: scale(1.1);
+}
+
+.btn-warning {
+    background-color: var(--gold);
+    color: white;
+}
+
+#bag-toggler {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    background-color: var(--gold);
+    display: none;
+    transition: all .3s;
+}
+
+#bag-toggler .badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: red;
+    border-radius: 50%;
+    width: 15px;
+    aspect-ratio: 1;
+    font-size: 10px;
+    display: grid;
+    place-items: center;
+}
+
+#bag-toggler:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transform: scale(1.1);
+}
+
+/* header */
+
+header {
+    background: linear-gradient(180deg, #000000 0%, rgba(0, 0, 0, 0) 100%),
+        url("../assets/images/site/HeaderBG.png") top left/contain repeat;
+}
+
+header .container {
+    display: grid;
+    place-items: center;
+    padding: 50px 0;
+}
+
+header h1 {
+    text-align: center;
+    line-height: 1.2;
+    color: white;
+}
+
+header form {
+    width: 35%;
+}
+
+header input {
+    padding: 2% 2% 2% 9%;
+    width: 100%;
+    border-radius: 100px;
+    border: none;
+    outline: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    font-size: clamp(10px, 1vw, 16px);
+
+    background: url("../assets/images/site/SearchLoupe.svg") no-repeat;
+    background-color: white;
+    background-position: left center;
+    border: inset 0.3vw transparent;
+    background-size: contain;
+}
+
+/* main */
+
+main .container {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 2%;
+}
+
+/* books-wrapper section */
+.books__container {
+    text-align: center;
+    padding: 5% 0 10%;
+}
+
+.books-wrapper {
+    margin-top: 60px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5vw;
+    row-gap: 3vw;
+}
+
+#book {
+    display: grid;
+    grid-template-columns: 3fr 5fr;
+    gap: 5%;
+    width: 48%;
+}
+
+#book .book__img {
+    align-self: flex-start;
+    position: relative;
+    overflow: hidden;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+#book .book__img img.dragging {
+    cursor: grabbing;
+}
+
+#book .book__img::after {
+    content: 'grab to bag';
+    padding: 0 10%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    font-size: clamp(20px, 2vw, 40px);
+    background: rgba(255, 255, 0, 0.8);
+    font-weight: bold;
+    opacity: 0;
+    cursor: grab;
+    transition: all .3s;
+}
+
+#book .book__img:hover::after {
+    opacity: 1;
+}
+
+#book .book__img:active::after {
+    display: none;
+}
+
+#book .book__content {
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.book__content__div {
+    display: flex;
+    flex-direction: column;
+    gap: 5%;
+}
+
+#bookAuth,
+#bag-book-auth {
+    color: var(--gold);
+}
+
+/* bag section */
+
+#bag {
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    background-color: #eee;
+    margin: 10% 0;
+    padding: 2vh 4% 10px;
+    text-align: center;
+    border-radius: 10px;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.bag__books {
+    margin: 3% 0;
+    display: flex;
+    align-items: center;
+}
+
+.bag__books>button {
+    font-weight: bold;
+    font-size: clamp(12px, 0.5vw, 25px);
+}
+
+.bag__books>.btn-close {
+    transform: translate(0);
+    top: 10px;
+    left: 10px;
+    display: none;
+}
+
+.slider {
+    flex: 6;
+    overflow: hidden;
+}
+
+.slider #books_wrapper {
+    display: flex;
+    width: 300%;
+}
+
+.bag__books-card {
+    position: relative;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 1%;
+    margin: 2%;
+    flex: 1;
+}
+
+.bag__books-card .card-content {
+    padding: 10% 0 15%;
+}
+
+
+.bag__books-card .card-content>div {
+    margin-top: 15px;
+    display: flex;
+    gap: 5%;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(12px, 1.2vw, 25px);
+    font-weight: 600;
+}
+
+#bag-book-Thumbnail {
+    border-radius: 5px 5px;
+}
+
+/* modal */
+.modal {
+    text-align: center;
+    position: fixed;
+    opacity: 0;
+    top: -100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 11;
+    width: 40%;
+    background-color: #fff;
+    padding: 3% 5%;
+    border-radius: 5px;
+    min-width: 500px;
+    cursor: auto;
+    transition: all 0.3s;
+}
+
+.modal.active {
+    opacity: 1;
+    top: 50%;
+}
+
+.modal #modal-title {
+    font-size: clamp(14px, 2vw, 25px);
+}
+
+.modal #modal-description {
+    margin-top: 10px;
+    font-size: clamp(10px, 1vw, 18px);
+    line-height: 1.3;
+}
+
+/* media */
+@media screen and (max-width: 1024px) {
+
+    /* default style */
+    h3 {
+        font-size: clamp(20px, 1.8vw, 25px);
+    }
+
+    #bag-book-title {
+        font-size: clamp(15px, 1.7vw, 20px);
+        margin-top: 2%;
+    }
+
+    p {
+        font-size: clamp(14px, 1.6vw, 18px);
+    }
+
+    /* buttons */
+    .btn-circle {
+        width: clamp(20px, 2vw, 30px);
+    }
+
+    main .container {
+        grid-template-columns: 2fr 1fr;
+    }
+
+    #book {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+
+    /* default styles */
+    h3 {
+        font-size: clamp(14px, 2vw, 25px);
+    }
+
+    #bag #bag-book-title {
+        font-size: clamp(12px, 1.5vw, 20px);
+    }
+
+    p {
+        font-size: clamp(10px, 1.6vw, 18px);
+    }
+
+    #bag p {
+        font-size: clamp(8px, 1.3vw, 18px);
+    }
+
+    /* header */
+    header form {
+        width: 45%;
+        min-width: 280px;
+    }
+
+    header input {
+        border-width: 2px;
+        padding-left: 10%;
+    }
+
+    /* modal */
+    .modal {
+        width: 90%;
+        min-width: auto;
+        padding: 5% 10%;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    body:has(#bag.active) .overlay {
+        opacity: 1;
+        display: block;
+    }
+
+    body:has(#bag.active) {
+        overflow-y: hidden;
+        scrollbar-gutter: stable;
+    }
+
+    #bag-toggler {
+        display: block;
+    }
+
+    main .container {
+        grid-template-columns: 1fr;
+    }
+
+    .books__container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .books-wrapper {
+        margin-top: 5%;
+    }
+
+    #bag {
+        position: fixed;
+        top: 0;
+        right: 0;
+        margin: 0;
+        padding: 3% 6%;
+        right: -100%;
+        opacity: 0;
+        transition: all 0.3s;
+        z-index: 11;
+    }
+
+    #bag.active {
+        right: 0;
+        opacity: 1;
+    }
+
+    .bag__books {
+        max-width: 250px;
+        margin: 5% auto;
+    }
+
+    .bag__books>.btn-close {
+        display: inline-block;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    h3 {
+        font-size: 12px;
+    }
+
+    .bag__books {
+        max-width: 300px;
+    }
+
+    header form {
+        width: 80%;
+    }
+
+    #bag {
+        width: 100%;
+    }
+}

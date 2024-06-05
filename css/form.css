@@ -1,0 +1,138 @@
+body {
+    background-color: var(--light);
+}
+
+.configm-section {
+    text-align: center;
+    margin-top: 3%;
+}
+
+.justify-content-center {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+p,
+label {
+    font-size: 1rem;
+    vertical-align: center;
+}
+
+.white-card {
+    text-align: left;
+    position: relative;
+    max-width: fit-content;
+    background-color: #fff;
+    margin: 2% auto;
+    padding: 40px 70px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    column-gap: 5px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.feedback {
+    grid-area: 2 / 2;
+    font-size: 0.8rem;
+    display: none;
+}
+
+.invalid-feedback {
+    color: red;
+    display: black;
+}
+
+option {
+    text-align: left !important;
+}
+
+form>div {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    row-gap: 5px;
+    column-gap: 15px;
+}
+
+form .btn-close {
+    min-width: 25px;
+}
+
+form>div *:first-child {
+    text-align: right;
+    white-space: nowrap;
+    text-transform: capitalize;
+}
+
+form>div input:not([type='radio'], [type='checkbox']),
+form>div select {
+    width: 100%;
+    padding: 5px 15px;
+    border: none;
+    border-radius: 3px;
+    font-size: 0.9rem;
+    background-color: var(--light);
+}
+
+input:focus,
+select:focus {
+    outline: 1px solid var(--gray);
+}
+
+.btn {
+    align-self: center;
+}
+
+.complete-section .white-card>div {
+    margin-top: 5%;
+}
+
+.complete-section .white-card>div>div {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 15px;
+}
+
+.complete-section .white-card>div>div>*:first-child {
+    text-align: right;
+    color: var(--gold);
+}
+
+@media screen and (max-width: 768px) {
+    form>div {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    form>div .justify-content-center {
+        justify-content: left;
+    }
+
+    .feedback {
+        grid-area: auto;
+    }
+
+    form>div *:first-child {
+        text-align: left;
+    }
+
+    .white-card {
+        padding: 40px 10%;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .white-card {
+        min-width: 100%;
+        margin: 5% 0;
+        padding-inline: 7% !important;
+    }
+
+    form .btn-close {
+        transform: translate(0);
+        top: 10px;
+        right: 10px;
+    }
+}
