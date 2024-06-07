@@ -38,6 +38,9 @@ async function fetchData() {
     }
 }
 
+// Event Listeners
+overlay.addEventListener('click', closeModal);
+
 // Display Books
 function displayBooks(books) {
     booksWrapper.innerHTML = '';
@@ -58,6 +61,16 @@ function displayBooks(books) {
 
         booksWrapper.append(bookElement);
     });
+}
+
+function showModal(book) {
+    modal.classList.add('active');
+    modalTitle.textContent = book.title;
+    modalDescription.textContent = book.description;
+}
+
+function closeModal() {
+    modal.classList.remove('active');
 }
 
 // Initialize the app
