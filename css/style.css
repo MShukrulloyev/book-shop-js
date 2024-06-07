@@ -11,6 +11,10 @@
     box-sizing: border-box;
 }
 
+html {
+    scrollbar-gutter: stable;
+}
+
 body {
     font-family: Montserrat, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     line-height: 1.6;
@@ -83,7 +87,7 @@ p {
 }
 
 .price big {
-    font-size: clamp(12px, 1.2vw, 25px);
+    font-size: clamp(16px, 1.2vw, 25px);
     font-weight: bold;
 }
 
@@ -301,10 +305,10 @@ main .container {
 
 #book .book__img::after {
     content: 'grab to bag';
-    padding: 0 10%;
     position: absolute;
     top: 0;
     left: 0;
+    width: 100%;
     height: 100%;
     display: grid;
     place-items: center;
@@ -344,7 +348,7 @@ main .container {
 
 /* bag section */
 
-#bag {
+.bag {
     position: sticky;
     top: 0;
     align-self: flex-start;
@@ -380,9 +384,8 @@ main .container {
     overflow: hidden;
 }
 
-.slider #books_wrapper {
+.slider #bag_books_wrapper {
     display: flex;
-    width: 300%;
 }
 
 .bag__books-card {
@@ -463,6 +466,10 @@ main .container {
         font-size: clamp(14px, 1.6vw, 18px);
     }
 
+    .price big {
+        font-size: clamp(12px, 1.8vw, 25px);
+    }
+
     /* buttons */
     .btn-circle {
         width: clamp(20px, 2vw, 30px);
@@ -484,7 +491,7 @@ main .container {
         font-size: clamp(14px, 2vw, 25px);
     }
 
-    #bag #bag-book-title {
+    .bag #bag-book-title {
         font-size: clamp(12px, 1.5vw, 20px);
     }
 
@@ -492,7 +499,7 @@ main .container {
         font-size: clamp(10px, 1.6vw, 18px);
     }
 
-    #bag p {
+    .bag p {
         font-size: clamp(8px, 1.3vw, 18px);
     }
 
@@ -544,7 +551,7 @@ main .container {
         margin-top: 5%;
     }
 
-    #bag {
+    .bag {
         position: fixed;
         top: 0;
         right: 0;
@@ -584,7 +591,7 @@ main .container {
         width: 80%;
     }
 
-    #bag {
+    .bag {
         width: 100%;
     }
 }
