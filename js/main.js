@@ -73,12 +73,22 @@ function closeModal() {
     modal.classList.remove('active');
 }
 
+function searchBook(books, title) {
+    title = title.trim().toLowerCase();
+
+    const filteredBooks = books.filter(book => book.title.toLowerCase().includes(title));
+
+    displayBooks(filteredBooks);
+}
+
 // Initialize the app
 async function init() {
-    const data = await fetchData();
-    if (data) {
-        displayBooks(data);
-    }
+    const books = await fetchData();
+    if (!books) return;
+
+    displayBooks(books);
+
+    searchInput.addEventListener('input', (event) => searchBook(books, event.target.value))
 }
 
 // Initialize when DOM is fully loaded
