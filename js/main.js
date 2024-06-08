@@ -44,9 +44,16 @@ overlay.addEventListener('click', closeModal);
 // Display Books
 function displayBooks(books) {
     booksWrapper.innerHTML = '';
-    books.forEach((book, i) => {
+    books.forEach((book, bookIndex) => {
         const bookElement = bookTemplate.cloneNode(true);
-        bookElement.querySelector('#book').dataset.bookIndex = i;
+        const starsParent = bookElement.querySelector('#stars');
+        const starItems = bookElement.querySelectorAll('#stars>*');
+
+        starItems.forEach((star, ind, items) => star.addEventListener('mouseover', (event) => displayStarRating(items, ind + 1)));
+        starItems.forEach(star => star.addEventListener('click', (event) => saveBookRate(event, bookIndex)));
+        starsParent.addEventListener('mouseleave', () => displayBookRate(bookIndex));
+
+        bookElement.querySelector('#book').dataset.bookIndex = bookIndex;
         bookElement.querySelector('.book__img img').src = `${thumbnailPath}/${book.imageLink}`;
         bookElement.querySelector('.book__img img').alt = book.title;
         bookElement.querySelector('#bookTitle').textContent = book.title;
@@ -57,10 +64,58 @@ function displayBooks(books) {
         btnShowMore = bookElement.querySelector('#show-more');
 
         btnShowMore.addEventListener('click', () => showModal(book))
-        // todo: display stars
 
         booksWrapper.append(bookElement);
+        displayBookRate(bookIndex);
     });
+}
+
+function displayStarRating(items, rate) {
+    items.forEach((item, ind) => {
+        if (ind < rate) {
+            item.classList.add('active');
+        } else {
+            item.classList.remove('active');
+        }
+    })
+}
+
+function saveBookRate(event, bookIndex) {
+    removeRatedItem(bookIndex);
+
+    let currentBookRate = event.target.dataset.rate;
+    let rateData = JSON.parse(localStorage.getItem('rate')) || [];
+
+    let bookItem = {
+        id: bookIndex,
+        rate: currentBookRate
+    }
+
+    rateData.push(bookItem);
+    localStorage.setItem('rate', JSON.stringify(rateData));
+}
+
+function displayBookRate(bookIndex) {
+    const bookElem = document.querySelector(`[data-book-index="${bookIndex}"]`);
+    const starsItem = bookElem.querySelectorAll('#stars>*');
+
+    let bookRate = getBookRate(bookIndex);
+
+    displayStarRating(starsItem, bookRate);
+}
+
+function getBookRate(bookIndex) {
+    let rateData = JSON.parse(localStorage.getItem('rate')) || [];
+    let filteredItems = rateData.find(item => item.id === bookIndex);
+
+    return filteredItems?.rate || 0;
+}
+
+function removeRatedItem(bookIndex) {
+    let rateData = JSON.parse(localStorage.getItem('rate')) || [];
+    let filteredItems = rateData.filter(item => item.id !== bookIndex);
+
+    localStorage.setItem('rate', JSON.stringify(filteredItems));
 }
 
 function showModal(book) {
