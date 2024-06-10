@@ -26,6 +26,12 @@ const overlay = document.querySelector('#overlay');
 
 let thumbnailPath = '/assets/images/thumbnails';
 
+let books = [];
+let bagBooks = [];
+
+let offset = 1;
+let minOffset = 1;
+
 // Fetch API
 async function fetchData() {
     try {
@@ -42,16 +48,52 @@ async function fetchData() {
 
 // Event Listeners
 overlay.addEventListener('click', closeModal);
+bagPrevBtn.addEventListener('click', sliderPrev);
+bagNextBtn.addEventListener('click', sliderNext);
+
+// main functions
+function createThumbnailPath(imgName = null) {
+    if (!imgName) imgName = 'default.jpg';
+    return `${thumbnailPath}/${imgName}`;
+}
+
+// slider functions
+function sliderPrev() {
+    if (offset === minOffset) return;
+
+    offset--;
+    activateBagButtons();
+    sliderTransform();
+}
+
+function sliderNext() {
+    if (offset === bagBooks.length) return;
+
+    offset++;
+    activateBagButtons();
+    sliderTransform();
+}
+
+function sliderTransform() {
+    let bagBooksLength = bagBooks.length;
+
+    if (offset > bagBooksLength) offset = bagBooksLength;
+
+    let translateX = (100 / bagBooksLength) * (offset - 1);
+    booksWrapperBag.style.transform = `translateX(-${translateX}%)`;
+}
 
 // Display Books
 function displayBooks(books) {
     booksWrapper.innerHTML = '';
 
-    books.forEach((book, bookIndex) => {
+    books.forEach((book) => {
         const bookElement = bookTemplate.cloneNode(true);
         const starsParent = bookElement.querySelector('#stars');
         const starItems = bookElement.querySelectorAll('#stars>*');
         const addToBagBtn = bookElement.querySelector('#add-to-bag');
+
+        const bookIndex = book.id;
 
         starItems.forEach((star, ind, items) => star.addEventListener('mouseover', (event) => displayStarRating(items, ind + 1)));
         starItems.forEach(star => star.addEventListener('click', (event) => saveBookRate(event, bookIndex)));
@@ -63,7 +105,7 @@ function displayBooks(books) {
         });
 
         bookElement.querySelector('#book').dataset.bookIndex = bookIndex;
-        bookElement.querySelector('.book__img img').src = `${thumbnailPath}/${book.imageLink}`;
+        bookElement.querySelector('.book__img img').src = createThumbnailPath(book?.imageLink);
         bookElement.querySelector('.book__img img').alt = book.title;
         bookElement.querySelector('#bookTitle').textContent = book.title;
         bookElement.querySelector('#bookAuth').textContent = book.author;
@@ -79,27 +121,44 @@ function displayBooks(books) {
     });
 }
 
+// display bag books
 function displayBagBooks(bagBooks = null) {
     if (bagBooks === null) {
         bagBooks = JSON.parse(localStorage.getItem('bag')) || [];
     }
 
     bagItem.classList.toggle('empty', bagBooks.length === 0);
+    booksWrapperBag.style.width = bagBooks.length * 100 + '%';
 
     booksWrapperBag.innerHTML = '';
 
     bagBooks.forEach((bagBook, itemIndex) => {
         const bagBookElement = bagBookTemplate.cloneNode(true);
-
         const bagBookIndex = bagBook.bookIndex;
+        const bookData = books.filter(book => book.id === bagBookIndex)[0];
+
+        bagBookElement.querySelector('#bag-book-Thumbnail').src = createThumbnailPath(bookData?.imageLink);
+        bagBookElement.querySelector('#bag-book-title').textContent = bookData.title;
+        bagBookElement.querySelector('#bag-book-auth').textContent = bookData.author;
+        bagBookElement.querySelector('#bag-book-price').textContent = bookData.price;
+        bagBookElement.querySelector('.bag-book-count').textContent = bagBook.count;
 
         bagBookElement.querySelector('#bag-book-close').addEventListener('click', () => {
             removeBagItem(bagBookIndex);
             displayBagBooks();
-        })
+        });
+
+        activateBagButtons();
 
         booksWrapperBag.append(bagBookElement);
     })
+}
+
+function activateBagButtons() {
+    const bagLength = bagBooks.length;
+
+    bagPrevBtn.classList.toggle('disabled', offset === minOffset);
+    bagNextBtn.classList.toggle('disabled', offset === bagLength);
 }
 
 // rating functions
@@ -151,7 +210,6 @@ function removeRatedItem(bookIndex) {
     localStorage.setItem('rate', JSON.stringify(filteredItems));
 }
 
-
 // modal functions
 function showModal(book) {
     modal.classList.add('active');
@@ -173,33 +231,36 @@ function searchBook(books, title) {
 }
 
 function addToBag(bookIndex) {
-    const bag = JSON.parse(localStorage.getItem('bag')) || [];
-
-    let hasItem = bag.find(item => item.bookIndex === bookIndex);
+    let hasItem = bagBooks.find(item => item.bookIndex === bookIndex);
     if (hasItem) return;
 
     const bagItem = {
         bookIndex: bookIndex,
-        count: 0
+        count: 1
     }
 
-    bag.push(bagItem);
+    offset++;
 
-    localStorage.setItem('bag', JSON.stringify(bag));
+    bagBooks.push(bagItem);
+    activateBagButtons();
+    sliderTransform();
+
+    localStorage.setItem('bag', JSON.stringify(bagBooks));
 }
 
 function removeBagItem(bookIndex) {
-    const bag = JSON.parse(localStorage.getItem('bag')) || [];
+    bagBooks = bagBooks.filter(item => item.bookIndex !== bookIndex);
 
-    let filteredItems = bag.filter(item => item.bookIndex !== bookIndex);
+    booksWrapperBag.style.width = bagBooks.length * 100 + '%';
+    sliderTransform();
 
-    localStorage.setItem('bag', JSON.stringify(filteredItems));
+    localStorage.setItem('bag', JSON.stringify(bagBooks));
 }
 
 // Initialize the app
 async function init() {
-    const books = await fetchData();
-    const bagBooks = JSON.parse(localStorage.getItem('bag')) || [];
+    books = await fetchData();
+    bagBooks = JSON.parse(localStorage.getItem('bag')) || [];
     if (!books) return;
 
     displayBooks(books);
