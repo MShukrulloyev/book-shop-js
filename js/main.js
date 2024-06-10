@@ -48,10 +48,13 @@ function displayBooks(books) {
         const bookElement = bookTemplate.cloneNode(true);
         const starsParent = bookElement.querySelector('#stars');
         const starItems = bookElement.querySelectorAll('#stars>*');
+        const addToBagBtn = bookElement.querySelector('#add-to-bag');
 
         starItems.forEach((star, ind, items) => star.addEventListener('mouseover', (event) => displayStarRating(items, ind + 1)));
         starItems.forEach(star => star.addEventListener('click', (event) => saveBookRate(event, bookIndex)));
+
         starsParent.addEventListener('mouseleave', () => displayBookRate(bookIndex));
+        addToBagBtn.addEventListener('click', () => addToBag(bookIndex));
 
         bookElement.querySelector('#book').dataset.bookIndex = bookIndex;
         bookElement.querySelector('.book__img img').src = `${thumbnailPath}/${book.imageLink}`;
@@ -70,6 +73,7 @@ function displayBooks(books) {
     });
 }
 
+// rating functions
 function displayStarRating(items, rate) {
     items.forEach((item, ind) => {
         if (ind < rate) {
@@ -118,6 +122,8 @@ function removeRatedItem(bookIndex) {
     localStorage.setItem('rate', JSON.stringify(filteredItems));
 }
 
+
+// modal functions
 function showModal(book) {
     modal.classList.add('active');
     modalTitle.textContent = book.title;
@@ -128,12 +134,39 @@ function closeModal() {
     modal.classList.remove('active');
 }
 
+// book functions
 function searchBook(books, title) {
     title = title.trim().toLowerCase();
 
     const filteredBooks = books.filter(book => book.title.toLowerCase().includes(title));
 
     displayBooks(filteredBooks);
+}
+
+function addToBag(bookIndex) {
+    const bag = JSON.parse(localStorage.getItem('bag')) || [];
+
+    let hasItem = bag.find(item => item.bookIndex === bookIndex);
+    if (hasItem) return;
+
+    const bagItem = {
+        bookIndex: bookIndex,
+        count: 0
+    }
+
+    bag.push(bagItem);
+
+    localStorage.setItem('bag', JSON.stringify(bag));
+    console.log(localStorage.getItem('bag'));
+}
+
+function removeBagItem(bookIndex) {
+    const bag = JSON.parse(localStorage.getItem('bag')) || [];
+
+    let filteredItems = bag.filter(item => item.bookIndex !== bookIndex);
+
+    localStorage.setItem('bag', JSON.stringify(filteredItems));
+    console.log(localStorage.getItem('bag'));
 }
 
 // Initialize the app
