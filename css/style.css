@@ -361,6 +361,21 @@ main .container {
     overflow-y: auto;
 }
 
+.bag:not(.empty) .no-data {
+    display: none
+}
+
+.bag.empty .no-data {
+    display: block;
+    background-color: white;
+    border-radius: 10px;
+    margin-top: 3rem;
+}
+
+.bag.empty div:not(.no-data) {
+    display: none;
+}
+
 .bag__books {
     margin: 3% 0;
     display: flex;

@@ -39,6 +39,10 @@
             <aside class="bag">
                 <h2>Your Bag</h2>
 
+                <div class="no-data">
+                    <img src="assets/images/site/no-data-found.png" alt="bag is empty image">
+                </div>
+
                 <div class="bag__books">
                     <button class="btn-circle btn-close" id="bag-close">&#10005;</button>
 
@@ -114,7 +118,7 @@
 
     <!-- Bag book template -->
     <template id="bag-book-template">
-        <div class="bag__books-card" id="bag-book" data-bag-item-id="">
+        <div class="bag__books-card" id="bag-book">
             <button class="btn-circle btn-close" id="bag-book-close">&#10005;</button>
             <div class="card-image">
                 <img id="bag-book-Thumbnail"

@@ -1,6 +1,8 @@
 // Selectors
 const searchInput = document.querySelector('#search-input');
 
+const bagItem = document.querySelector('.bag');
+
 const booksWrapper = document.querySelector('#books');
 const sliderWrapper = document.querySelector('.bag__books');
 const booksWrapperBag = document.querySelector('#bag_books_wrapper');
@@ -44,6 +46,7 @@ overlay.addEventListener('click', closeModal);
 // Display Books
 function displayBooks(books) {
     booksWrapper.innerHTML = '';
+
     books.forEach((book, bookIndex) => {
         const bookElement = bookTemplate.cloneNode(true);
         const starsParent = bookElement.querySelector('#stars');
@@ -80,6 +83,8 @@ function displayBagBooks(bagBooks = null) {
     if (bagBooks === null) {
         bagBooks = JSON.parse(localStorage.getItem('bag')) || [];
     }
+
+    bagItem.classList.toggle('empty', bagBooks.length === 0);
 
     booksWrapperBag.innerHTML = '';
 
