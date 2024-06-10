@@ -54,7 +54,10 @@ function displayBooks(books) {
         starItems.forEach(star => star.addEventListener('click', (event) => saveBookRate(event, bookIndex)));
 
         starsParent.addEventListener('mouseleave', () => displayBookRate(bookIndex));
-        addToBagBtn.addEventListener('click', () => addToBag(bookIndex));
+        addToBagBtn.addEventListener('click', () => {
+            addToBag(bookIndex);
+            displayBagBooks();
+        });
 
         bookElement.querySelector('#book').dataset.bookIndex = bookIndex;
         bookElement.querySelector('.book__img img').src = `${thumbnailPath}/${book.imageLink}`;
@@ -71,6 +74,27 @@ function displayBooks(books) {
         booksWrapper.append(bookElement);
         displayBookRate(bookIndex);
     });
+}
+
+function displayBagBooks(bagBooks = null) {
+    if (bagBooks === null) {
+        bagBooks = JSON.parse(localStorage.getItem('bag')) || [];
+    }
+
+    booksWrapperBag.innerHTML = '';
+
+    bagBooks.forEach((bagBook, itemIndex) => {
+        const bagBookElement = bagBookTemplate.cloneNode(true);
+
+        const bagBookIndex = bagBook.bookIndex;
+
+        bagBookElement.querySelector('#bag-book-close').addEventListener('click', () => {
+            removeBagItem(bagBookIndex);
+            displayBagBooks();
+        })
+
+        booksWrapperBag.append(bagBookElement);
+    })
 }
 
 // rating functions
@@ -157,7 +181,6 @@ function addToBag(bookIndex) {
     bag.push(bagItem);
 
     localStorage.setItem('bag', JSON.stringify(bag));
-    console.log(localStorage.getItem('bag'));
 }
 
 function removeBagItem(bookIndex) {
@@ -166,15 +189,16 @@ function removeBagItem(bookIndex) {
     let filteredItems = bag.filter(item => item.bookIndex !== bookIndex);
 
     localStorage.setItem('bag', JSON.stringify(filteredItems));
-    console.log(localStorage.getItem('bag'));
 }
 
 // Initialize the app
 async function init() {
     const books = await fetchData();
+    const bagBooks = JSON.parse(localStorage.getItem('bag')) || [];
     if (!books) return;
 
     displayBooks(books);
+    displayBagBooks(bagBooks);
 
     searchInput.addEventListener('input', (event) => searchBook(books, event.target.value))
 }
