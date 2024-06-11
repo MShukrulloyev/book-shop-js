@@ -358,7 +358,7 @@ main .container {
 }
 
 .bag.hovered {
-    background-color: yellow;
+    background-color: #e4e4e4;
 }
 
 .bag:not(.empty) .no-data {

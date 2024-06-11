@@ -147,7 +147,7 @@ function displayBagBooks(bagBooks = null) {
     bagBooks.forEach((bagBook, itemIndex) => {
         const bagBookElement = bagBookTemplate.cloneNode(true);
         const bagBookIndex = bagBook.bookIndex;
-        const bookData = books.filter(book => parseInt(book.id) === parseInt(bagBookIndex))[0];
+        const bookData = books.filter(book => book.id === bagBookIndex)[0];
 
         bagBookElement.querySelector('#bag-book-Thumbnail').src = createThumbnailPath(bookData?.imageLink);
         bagBookElement.querySelector('#bag-book-title').textContent = bookData.title;
@@ -308,7 +308,7 @@ function addToBag(bookIndex) {
     if (hasItem) return;
 
     const bagItem = {
-        bookIndex: bookIndex,
+        bookIndex: parseInt(bookIndex),
         count: 1
     }
 
