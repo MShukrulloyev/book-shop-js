@@ -47,7 +47,7 @@ async function fetchData() {
 }
 
 // Event Listeners
-overlay.addEventListener('click', closeModal);
+overlay.addEventListener('click', closeOverlay);
 bagPrevBtn.addEventListener('click', sliderPrev);
 bagNextBtn.addEventListener('click', sliderNext);
 
@@ -201,6 +201,11 @@ function activateBagButtons() {
     bagNextBtn.classList.toggle('disabled', offset === bagLength);
 }
 
+function toggleBag() {
+    bagElem.classList.toggle("active");
+    console.log(1);
+}
+
 // rating functions
 function displayStarRating(items, rate) {
     items.forEach((item, ind) => {
@@ -257,8 +262,12 @@ function showModal(book) {
     modalDescription.textContent = book.description;
 }
 
-function closeModal() {
-    modal.classList.remove('active');
+function closeOverlay() {
+    if (modal.classList.contains('active')) {
+        modal.classList.remove('active');
+    } else if (bagElem.classList.contains('active')) {
+        bagElem.classList.remove('active');
+    }
 }
 
 // book functions
@@ -306,12 +315,16 @@ function drop(event, elem) {
     event.preventDefault();
     elem.classList.remove('hovered');
     const data = event.dataTransfer.getData("text/plain");
-    addToBag(data);
-    displayBagBooks();
+
+    if (parseInt(data)) {
+        addToBag(data);
+        displayBagBooks();
+    }
 }
 
 function allowDrop(event, elem) {
     event.preventDefault();
+
     elem.classList.add('hovered');
 }
 
@@ -331,6 +344,8 @@ async function init() {
     bagElem.addEventListener('drop', (event) => drop(event, bagElem));
     bagElem.addEventListener('dragover', (event) => allowDrop(event, bagElem));
     bagElem.addEventListener('dragleave', () => dragLeave(bagElem));
+
+    bagToggler.addEventListener('click', toggleBag);
 
     searchInput.addEventListener('input', (event) => searchBook(books, event.target.value))
 }

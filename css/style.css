@@ -112,12 +112,12 @@ p {
     display: none !important;
 }
 
-body:has(#modal.active) {
+html:has(#modal.active) {
     overflow-y: hidden;
     scrollbar-gutter: stable;
 }
 
-body:has(#modal.active) .overlay {
+html:has(#modal.active) .overlay {
     opacity: 1;
     display: block;
 }
@@ -289,7 +289,6 @@ main .container {
     grid-template-columns: 3fr 5fr;
     gap: 5%;
     width: 48%;
-    user-select: none;
 }
 
 #book .book__img {
@@ -541,12 +540,12 @@ main .container {
 }
 
 @media screen and (max-width: 700px) {
-    body:has(#bag.active) .overlay {
+    html:has(.bag.active) .overlay {
         opacity: 1;
         display: block;
     }
 
-    body:has(#bag.active) {
+    html:has(.bag.active) {
         overflow-y: hidden;
         scrollbar-gutter: stable;
     }
@@ -578,10 +577,10 @@ main .container {
         right: -100%;
         opacity: 0;
         transition: all 0.3s;
-        z-index: 11;
+        z-index: 110;
     }
 
-    #bag.active {
+    .bag.active {
         right: 0;
         opacity: 1;
     }
