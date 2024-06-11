@@ -1,7 +1,7 @@
 // Selectors
 const searchInput = document.querySelector('#search-input');
 
-const bagItem = document.querySelector('.bag');
+const bagElem = document.querySelector('.bag');
 
 const booksWrapper = document.querySelector('#books');
 const sliderWrapper = document.querySelector('.bag__books');
@@ -92,6 +92,7 @@ function displayBooks(books) {
         const starsParent = bookElement.querySelector('#stars');
         const starItems = bookElement.querySelectorAll('#stars>*');
         const addToBagBtn = bookElement.querySelector('#add-to-bag');
+        const bookImage = bookElement.querySelector('.book__img img');
 
         const bookIndex = book.id;
 
@@ -104,9 +105,11 @@ function displayBooks(books) {
             displayBagBooks();
         });
 
+        bookImage.addEventListener('dragstart', (event) => drag(event, bookIndex, bookImage));
+
         bookElement.querySelector('#book').dataset.bookIndex = bookIndex;
-        bookElement.querySelector('.book__img img').src = createThumbnailPath(book?.imageLink);
-        bookElement.querySelector('.book__img img').alt = book.title;
+        bookImage.src = createThumbnailPath(book?.imageLink);
+        bookImage.alt = book.title;
         bookElement.querySelector('#bookTitle').textContent = book.title;
         bookElement.querySelector('#bookAuth').textContent = book.author;
         bookElement.querySelector('#price').textContent = book.price;
@@ -127,7 +130,7 @@ function displayBagBooks(bagBooks = null) {
         bagBooks = JSON.parse(localStorage.getItem('bag')) || [];
     }
 
-    bagItem.classList.toggle('empty', bagBooks.length === 0);
+    bagElem.classList.toggle('empty', bagBooks.length === 0);
     booksWrapperBag.style.width = bagBooks.length * 100 + '%';
 
     booksWrapperBag.innerHTML = '';
@@ -135,13 +138,24 @@ function displayBagBooks(bagBooks = null) {
     bagBooks.forEach((bagBook, itemIndex) => {
         const bagBookElement = bagBookTemplate.cloneNode(true);
         const bagBookIndex = bagBook.bookIndex;
-        const bookData = books.filter(book => book.id === bagBookIndex)[0];
+        const bookData = books.filter(book => parseInt(book.id) === parseInt(bagBookIndex))[0];
 
         bagBookElement.querySelector('#bag-book-Thumbnail').src = createThumbnailPath(bookData?.imageLink);
         bagBookElement.querySelector('#bag-book-title').textContent = bookData.title;
         bagBookElement.querySelector('#bag-book-auth').textContent = bookData.author;
         bagBookElement.querySelector('#bag-book-price').textContent = bookData.price;
         bagBookElement.querySelector('.bag-book-count').textContent = bagBook.count;
+
+        bagBookElement.querySelector('#inc').addEventListener('click', () => {
+            incBookCount(bagBookIndex);
+            displayBookCount(itemIndex);
+            activateCountButtons(itemIndex);
+        });
+        bagBookElement.querySelector('#dec').addEventListener('click', () => {
+            decBookCount(bagBookIndex);
+            displayBookCount(itemIndex);
+            activateCountButtons(itemIndex);
+        });
 
         bagBookElement.querySelector('#bag-book-close').addEventListener('click', () => {
             removeBagItem(bagBookIndex);
@@ -151,7 +165,33 @@ function displayBagBooks(bagBooks = null) {
         activateBagButtons();
 
         booksWrapperBag.append(bagBookElement);
+        activateCountButtons(itemIndex);
     })
+}
+
+function incBookCount(bookIndex) {
+    bagBooks.map(bagBook => bagBook.bookIndex === bookIndex ? bagBook.count++ : bagBook.count);
+
+    localStorage.setItem('bag', JSON.stringify(bagBooks));
+}
+
+function decBookCount(bookIndex) {
+    bagBooks.map(bagBook => bagBook.bookIndex === bookIndex && bagBook.count > 1 ? bagBook.count-- : bagBook.count);
+
+    localStorage.setItem('bag', JSON.stringify(bagBooks));
+}
+
+function displayBookCount(itemIndex) {
+    const bagBookCountElem = booksWrapperBag.querySelector(`#bag-book:nth-child(${itemIndex + 1}) .bag-book-count`);
+
+    bagBookCountElem.textContent = bagBooks[itemIndex].count;
+}
+
+function activateCountButtons(itemIndex) {
+    const bagBookElem = booksWrapperBag.querySelector(`#bag-book:nth-child(${itemIndex + 1})`);
+    const bagBookCount = bagBooks[itemIndex].count;
+
+    bagBookElem.querySelector('#dec').classList.toggle('disabled', bagBookCount === 1);
 }
 
 function activateBagButtons() {
@@ -239,9 +279,9 @@ function addToBag(bookIndex) {
         count: 1
     }
 
-    offset++;
-
     bagBooks.push(bagItem);
+    offset = bagBooks.length;
+
     activateBagButtons();
     sliderTransform();
 
@@ -257,6 +297,28 @@ function removeBagItem(bookIndex) {
     localStorage.setItem('bag', JSON.stringify(bagBooks));
 }
 
+// drag and drop functions
+function drag(event, bookIndex, elem) {
+    event.dataTransfer.setData('text/plain', bookIndex);
+}
+
+function drop(event, elem) {
+    event.preventDefault();
+    elem.classList.remove('hovered');
+    const data = event.dataTransfer.getData("text/plain");
+    addToBag(data);
+    displayBagBooks();
+}
+
+function allowDrop(event, elem) {
+    event.preventDefault();
+    elem.classList.add('hovered');
+}
+
+function dragLeave(elem) {
+    elem.classList.remove('hovered');
+}
+
 // Initialize the app
 async function init() {
     books = await fetchData();
@@ -265,6 +327,10 @@ async function init() {
 
     displayBooks(books);
     displayBagBooks(bagBooks);
+
+    bagElem.addEventListener('drop', (event) => drop(event, bagElem));
+    bagElem.addEventListener('dragover', (event) => allowDrop(event, bagElem));
+    bagElem.addEventListener('dragleave', () => dragLeave(bagElem));
 
     searchInput.addEventListener('input', (event) => searchBook(books, event.target.value))
 }

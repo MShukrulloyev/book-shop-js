@@ -289,6 +289,7 @@ main .container {
     grid-template-columns: 3fr 5fr;
     gap: 5%;
     width: 48%;
+    user-select: none;
 }
 
 #book .book__img {
@@ -297,10 +298,7 @@ main .container {
     overflow: hidden;
     border-radius: 5px;
     border: 1px solid rgba(0, 0, 0, 0.2);
-}
-
-#book .book__img img.dragging {
-    cursor: grabbing;
+    cursor: grab;
 }
 
 #book .book__img::after {
@@ -316,7 +314,6 @@ main .container {
     background: rgba(255, 255, 0, 0.8);
     font-weight: bold;
     opacity: 0;
-    cursor: grab;
     transition: all .3s;
 }
 
@@ -359,6 +356,10 @@ main .container {
     border-radius: 10px;
     height: 100vh;
     overflow-y: auto;
+}
+
+.bag.hovered {
+    background-color: yellow;
 }
 
 .bag:not(.empty) .no-data {
