@@ -7,7 +7,7 @@ const booksWrapper = document.querySelector('#books');
 const sliderWrapper = document.querySelector('.bag__books');
 const booksWrapperBag = document.querySelector('#bag_books_wrapper');
 
-const bagCloseBtn = sliderWrapper.querySelector('#bag-close');
+const bagCloseBtn = bagElem.querySelector('#bag-close');
 const bagPrevBtn = sliderWrapper.querySelector('#bag-prev');
 const bagNextBtn = sliderWrapper.querySelector('#bag-next');
 const bagToggler = document.querySelector('#bag-toggler');
@@ -50,6 +50,7 @@ async function fetchData() {
 overlay.addEventListener('click', closeOverlay);
 bagPrevBtn.addEventListener('click', sliderPrev);
 bagNextBtn.addEventListener('click', sliderNext);
+bagCloseBtn.addEventListener('click', toggleBag);
 
 // main functions
 function createThumbnailPath(imgName = null) {
@@ -135,6 +136,9 @@ function displayBagBooks(bagBooks = null) {
 
     booksWrapperBag.innerHTML = '';
 
+    bookCountToggler.textContent = bagBooks.length;
+    bookCountToggler.classList.toggle('d-none', bagBooks.length === 0);
+
     bagBooks.forEach((bagBook, itemIndex) => {
         const bagBookElement = bagBookTemplate.cloneNode(true);
         const bagBookIndex = bagBook.bookIndex;
@@ -203,7 +207,6 @@ function activateBagButtons() {
 
 function toggleBag() {
     bagElem.classList.toggle("active");
-    console.log(1);
 }
 
 // rating functions

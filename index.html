@@ -37,6 +37,8 @@
                 </div>
             </section>
             <aside class="bag">
+                <button class="btn-circle btn-close" id="bag-close">&#10005;</button>
+
                 <h2>Your Bag</h2>
 
                 <div class="no-data">
@@ -44,8 +46,6 @@
                 </div>
 
                 <div class="bag__books">
-                    <button class="btn-circle btn-close" id="bag-close">&#10005;</button>
-
                     <button class="btn-circle disabled" id="bag-prev">
                         <i class="fas fa-chevron-left"></i>
                     </button>
@@ -62,7 +62,7 @@
                 </div>
 
                 <div>
-                    <p class="price">Total: <big>$0</big></p>
+                    <p class="price">Total: <big>$<span id="totalPrice">0</span></big></p>
                     <button class="btn btn-warning mt-1">Confirm Order</button>
                 </div>
             </aside>
