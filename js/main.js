@@ -2,6 +2,7 @@
 const searchInput = document.querySelector('#search-input');
 
 const bagElem = document.querySelector('.bag');
+const bagTotalPriceElem = bagElem.querySelector('#totalPrice');
 
 const booksWrapper = document.querySelector('#books');
 const sliderWrapper = document.querySelector('.bag__books');
@@ -130,14 +131,18 @@ function displayBagBooks(bagBooks = null) {
     if (bagBooks === null) {
         bagBooks = JSON.parse(localStorage.getItem('bag')) || [];
     }
+    booksWrapperBag.innerHTML = '';
 
+    // calculate slider's wrapper width
     bagElem.classList.toggle('empty', bagBooks.length === 0);
     booksWrapperBag.style.width = bagBooks.length * 100 + '%';
 
-    booksWrapperBag.innerHTML = '';
-
+    // display count of book for bag toggler button
     bookCountToggler.textContent = bagBooks.length;
     bookCountToggler.classList.toggle('d-none', bagBooks.length === 0);
+
+    // display total price
+    displayTotalPrice();
 
     bagBooks.forEach((bagBook, itemIndex) => {
         const bagBookElement = bagBookTemplate.cloneNode(true);
@@ -154,11 +159,13 @@ function displayBagBooks(bagBooks = null) {
             incBookCount(bagBookIndex);
             displayBookCount(itemIndex);
             activateCountButtons(itemIndex);
+            displayTotalPrice();
         });
         bagBookElement.querySelector('#dec').addEventListener('click', () => {
             decBookCount(bagBookIndex);
             displayBookCount(itemIndex);
             activateCountButtons(itemIndex);
+            displayTotalPrice();
         });
 
         bagBookElement.querySelector('#bag-book-close').addEventListener('click', () => {
@@ -171,6 +178,20 @@ function displayBagBooks(bagBooks = null) {
         booksWrapperBag.append(bagBookElement);
         activateCountButtons(itemIndex);
     })
+}
+
+function displayTotalPrice() {
+    const totalPrice = bagBooks.reduce(
+        (total, currentItem) => {
+            let bookPrice = books.filter(item => item.id === currentItem.bookIndex) || 0;
+            let bookCount = currentItem.count;
+            if (bookPrice) bookPrice = bookPrice[0].price;
+
+            return total + bookCount * bookPrice;
+        },
+        0,
+    );
+    bagTotalPriceElem.textContent = totalPrice;
 }
 
 function incBookCount(bookIndex) {
