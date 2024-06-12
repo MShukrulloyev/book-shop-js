@@ -8,6 +8,10 @@ import BagBooks from './modules/bagBooks.js';
 import Slider from './modules/slider.js';
 import { allowDrop, closeOverlay, dragLeave, drop } from './modules/util.js';
 
+let booksObject = {};
+let sliderObject = {};
+let bagBooksObject = {};
+
 async function init() {
     const books = await fetchData();
     const bagBooks = JSON.parse(localStorage.getItem('bag')) || [];
@@ -15,9 +19,9 @@ async function init() {
     if (!books) return;
 
     // Step 1: Create objects without dependencies
-    const booksObject = new Books(books);
-    const sliderObject = new Slider();
-    const bagBooksObject = new BagBooks(bagBooks);
+    booksObject = new Books(books);
+    sliderObject = new Slider();
+    bagBooksObject = new BagBooks(bagBooks);
 
     // Step 2: Set dependencies
     sliderObject.setDependencies(bagBooksObject, 'bagBooksObject');

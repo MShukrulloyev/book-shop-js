@@ -69,8 +69,8 @@ export default class Books {
         this.bagBooksObject.addItem(bagItem);
         this.offset = this.bagBooksObject.items.length;
 
-        this.sliderObject.activateButtons();
         this.sliderObject.sliderTransform();
+        this.sliderObject.activateButtons();
 
         this.bagBooksObject.addToLocalStorage();
     }
