@@ -1,104 +1,138 @@
 // DOM Selectors
 const form = document.querySelector('form');
-const inputs = {
-    firstName: form.querySelector('#firstName'),
-    lastName: form.querySelector('#lastName'),
-    deliveryDate: form.querySelector('#delivery-date'),
-    street: form.querySelector('#street'),
-    houseNumber: form.querySelector('#house-number'),
-    flat: form.querySelector('#flat'),
-    paymentType: form.querySelector('input[name=payment-type]:checked'),
-    gift1: form.querySelector('#gift-1'),
-    gift2: form.querySelector('#gift-2'),
-    submitBtn: form.querySelector('#submit-btn'),
-};
+const firstNameInput = form.querySelector('#firstName');
+const lastNameInput = form.querySelector('#lastName');
+const deliveryDateInput = form.querySelector('#delivery-date');
+const streetInput = form.querySelector('#street');
+const houseNumberInput = form.querySelector('#house-number');
+const flatInput = form.querySelector('#flat');
+const paymentTypeInput = form.querySelector('input[name=payment-type]:checked');
+const gift1Select = form.querySelector('#gift-1');
+const gift2Select = form.querySelector('#gift-2');
+const submitBtn = form.querySelector('#submit-btn');
+
 const deliveryInputs = form.querySelectorAll('.delivery-input');
+
 const confirmSection = document.querySelector('#confirm-section');
 const completeSection = document.querySelector('#complete-section');
 
-// Redirect if already submitted
-if (new URLSearchParams(window.location.search).toString()) {
-    window.location.href = 'index.html';
+// check if has submitted
+const url = new URL(window.location.href);
+const params = new URLSearchParams(url.search);
+if (params.toString()) {
+    location = 'index.html';
 }
 
-// Event listeners for validation
+// validate inputs
 deliveryInputs.forEach(input => {
+    const rule = getRule(input.id);
+
     input.addEventListener('blur', () => {
-        validateInput(input);
+        let isValid = isValidInput(input, rule);
+
         toggleSubmitBtn();
+
+        input.classList.toggle('valid', isValid);
+        input.classList.toggle('invalid', !isValid);
     });
 });
 
-// Form submission
+// Event listeners
 form.addEventListener('submit', (e) => {
     e.preventDefault();
+
     if (!isFormValid()) return;
+
     localStorage.removeItem('bag');
+
     confirmSection.classList.add('d-none');
     completeSection.classList.remove('d-none');
+
     displayFormData();
 });
 
-// Event listeners for gifts
-inputs.gift1.addEventListener('input', () => updateOptions(inputs.gift1, inputs.gift2));
-inputs.gift2.addEventListener('input', () => updateOptions(inputs.gift2, inputs.gift1));
+gift1Select.addEventListener('input', () => {
+    updateOptions(gift1Select, gift2Select);
+});
 
-// Functions
-const validateInput = (input) => {
-    const rule = getRule(input.id);
-    const isValid = new InputValidator(input.value).isValid(rule);
-    input.classList.toggle('valid', isValid);
-    input.classList.toggle('invalid', !isValid);
-};
+gift2Select.addEventListener('input', () => {
+    updateOptions(gift2Select, gift1Select);
+});
 
-const toggleSubmitBtn = () => {
-    const isValid = isFormValid();
-    inputs.submitBtn.classList.toggle('disabled', !isValid);
-    inputs.submitBtn.classList.toggle('btn-warning', isValid);
-};
-
-const updateOptions = (input, otherInput) => {
+// functions
+function updateOptions(input, otherInput) {
     const selectedValue = input.value;
+
     otherInput.querySelectorAll('option').forEach(option => {
-        option.disabled = option.value === selectedValue;
+        if (option.value === selectedValue) {
+            option.disabled = true;
+        } else {
+            option.disabled = false;
+        }
     });
+
     if (otherInput.value === selectedValue) {
         otherInput.value = '';
     }
-};
+}
 
-const displayFormData = () => {
-    const customerName = `${inputs.firstName.value} ${inputs.lastName.value}`;
-    const deliveryAddress = `${inputs.street.value}, house ${inputs.houseNumber.value}, flat ${inputs.flat.value}`;
-    const deliveryDate = inputs.deliveryDate.value;
-    const paymentType = inputs.paymentType.value;
-    const gift1Title = inputs.gift1.value ? inputs.gift1.options[inputs.gift1.selectedIndex].textContent : '';
-    const gift2Title = inputs.gift2.value ? inputs.gift2.options[inputs.gift2.selectedIndex].textContent : '';
-    const gifts = [gift1Title, gift2Title].filter(Boolean).join(', ');
+function displayFormData() {
+    const gift1Title = gift1Select.value ? gift1Select.options[gift1Select.selectedIndex].textContent : null;
+    const gift2Title = gift2Select.value ? gift2Select.options[gift2Select.selectedIndex].textContent : null;
+
+    const customerName = `${firstNameInput.value} ${lastNameInput.value}`;
+    const deliveryAddress = `${streetInput.value}, house ${houseNumberInput.value}, flat ${flatInput.value}`;
+    const deliveryDate = deliveryDateInput.value;
+    const paymentType = paymentTypeInput.value;
+
+    let gifts = '';
+    if (gift1Title) gifts += `${gift1Title}`;
+    if (gift1Title && gift2Title) gifts += ', ';
+    if (gift2Title) gifts += `${gift2Title}`;
 
     completeSection.querySelector('#customer').textContent = customerName;
     completeSection.querySelector('#delivery-address').textContent = deliveryAddress;
     completeSection.querySelector('#delivery-date').textContent = deliveryDate;
     completeSection.querySelector('#payment').textContent = paymentType;
     completeSection.querySelector('#gifts').textContent = gifts;
-};
+}
 
-const isFormValid = () => Array.from(deliveryInputs).every(input => {
-    const rule = getRule(input.id);
-    return new InputValidator(input.value).isValid(rule);
-});
+function isValidInput(input, rule = []) {
+    const validatorObj = new InputValidator(input.value);
 
-const getRule = (inputId) => {
-    const rules = {
-        firstName: { minLength: 4, type: 'alphaOnly', noSpace: true },
-        lastName: { minLength: 5, type: 'alphaOnly', noSpace: true },
-        deliveryDate: { minDate: new Date() },
-        street: { minLength: 5, type: 'alphaNumericOnly' },
-        houseNumber: { min: 0 },
-        flat: { type: 'NumericSingleDashMiddle' },
-    };
-    return rules[inputId] || {};
-};
+    let isValid = validatorObj.isValid(rule);
+
+    return isValid;
+}
+
+function isFormValid() {
+    let isValid = true;
+    deliveryInputs.forEach(input => {
+        if (!isValid) return false;
+
+        const rule = getRule(input.id);
+        isValid = isValidInput(input, rule);
+    });
+    return isValid;
+}
+
+function getRule(inputId) {
+    let rule = {};
+
+    if (inputId === 'firstName') rule = { minLength: 4, type: 'alphaOnly', noSpace: true, };
+    if (inputId === 'lastName') rule = { minLength: 5, type: 'alphaOnly', noSpace: true, };
+    if (inputId === 'delivery-date') rule = { minDate: new Date() };
+    if (inputId === 'street') rule = { minLength: 5, type: 'alphaNumericOnly', };
+    if (inputId === 'house-number') rule = { min: 0, };
+    if (inputId === 'flat') rule = { type: 'NumericSingleDashMiddle', };
+
+    return rule;
+}
+
+function toggleSubmitBtn() {
+    submitBtn.classList.toggle('disabled', !isFormValid());
+    submitBtn.classList.toggle('btn-warning', isFormValid());
+}
 
 // validator class
 class InputValidator {
@@ -107,41 +141,58 @@ class InputValidator {
     }
 
     isValid(rule) {
-        return [
-            rule.min !== undefined ? this.isMore(rule.min) : true,
-            rule.minLength ? this.isEnoughChar(rule.minLength) : true,
-            rule.type ? this[rule.type]() : true,
-            rule.minDate ? this.checkDate(rule.minDate) : true,
-            rule.noSpace ? this.noSpace() : true,
-        ].every(Boolean);
+        if (rule.min !== undefined && !this.isMore(rule.min)) return false;
+        if (rule.minLength && !this.isEnoughtChar(rule.minLength)) return false;
+        if (rule.type && !this[rule.type]()) return false;
+        if (rule.minDate && !this.checkDate(rule.minDate)) return false;
+        if (rule.noSpace && !this.noSpace()) return false;
+        return true;
     }
 
     NumericSingleDashMiddle() {
-        return /^(?!-)[0-9]+(-[0-9]+)?(?!-)$/.test(this.value);
+        let letters = /^(?!-)[0-9]+(-[0-9]+)?(?!-)$/;
+        let isNumericDash = !!this.value.match(letters);
+
+        return isNumericDash;
     }
 
     noSpace() {
         return !this.value.includes(' ');
     }
 
-    checkDate(minDate) {
+    checkDate(min) {
+        const minDate = new Date(min);
         const inputDate = new Date(this.value);
-        return inputDate.setHours(0, 0, 0, 0) > new Date(minDate).setHours(0, 0, 0, 0);
+
+        inputDate.setHours(0, 0, 0, 0);
+        minDate.setHours(0, 0, 0, 0);
+
+        return minDate.getTime() < inputDate.getTime();
     }
 
     alphaOnly() {
-        return /^[A-Za-z]+$/.test(this.value);
+        let letters = /^[A-Za-z]+$/;
+        let isString = !!this.value.match(letters);
+
+        return isString;
     }
 
     alphaNumericOnly() {
-        return /^[A-Za-z0-9]*$/.test(this.value);
+        let letters = /^[A-Za-z0-9]*$/;
+        let isString = !!this.value.match(letters);
+
+        return isString;
     }
 
-    isEnoughChar(minLength) {
+    isEmpty() {
+        return this.value.length === 0;
+    }
+
+    isEnoughtChar(minLength) {
         return this.value.length >= minLength;
     }
 
     isMore(min) {
-        return parseInt(this.value, 10) >= min;
+        return parseInt(this.value) >= parseInt(min);
     }
 }
