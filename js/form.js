@@ -43,7 +43,7 @@ form.addEventListener('submit', (e) => {
 
     if (!isFormValid()) return;
 
-    localStorage.setItem('bag', '');
+    localStorage.removeItem('bag');
 
     confirmSection.classList.add('d-none');
     completeSection.classList.remove('d-none');
@@ -77,16 +77,18 @@ function updateOptions(input, otherInput) {
 }
 
 function displayFormData() {
-    const gift1Title = gift1Select.options[gift1Select.selectedIndex].textContent;
-    const gift2Title = gift2Select.options[gift2Select.selectedIndex].textContent;
+    const gift1Title = gift1Select.value ? gift1Select.options[gift1Select.selectedIndex].textContent : null;
+    const gift2Title = gift2Select.value ? gift2Select.options[gift2Select.selectedIndex].textContent : null;
 
     const customerName = `${firstNameInput.value} ${lastNameInput.value}`;
     const deliveryAddress = `${streetInput.value}, house ${houseNumberInput.value}, flat ${flatInput.value}`;
     const deliveryDate = deliveryDateInput.value;
     const paymentType = paymentTypeInput.value;
 
-    let gifts = gift1Title;
-    if (gift2Title) gifts += `, ${gift2Title}`;
+    let gifts = '';
+    if (gift1Title) gifts += `${gift1Title}`;
+    if (gift1Title && gift2Title) gifts += ', ';
+    if (gift2Title) gifts += `${gift2Title}`;
 
     completeSection.querySelector('#customer').textContent = customerName;
     completeSection.querySelector('#delivery-address').textContent = deliveryAddress;
